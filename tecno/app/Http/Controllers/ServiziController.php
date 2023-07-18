@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Servizi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ServiziController extends Controller
 {
@@ -49,20 +50,41 @@ class ServiziController extends Controller
     }
 
     // Funzione per aggiornare un Servizio nel database
-    public function update(Request $request, Servizi $servizi)
-    {
-        // Valida i dati inviati dalla richiesta
-        $request->validate([
-            'nome_servizio' => 'required',
-            'descrizione' => 'required',
-        ]);
+public function update(Request $request, Servizi $servizi)
+{
+    // Definisci le regole di validazione
+    $rules = [
+        'nome_servizio' => 'required|min:3|max:255',
+        'descrizione' => 'required|min:10',
+    ];
 
-        // Aggiorna il Servizio utilizzando i dati inviati dalla richiesta
-        $servizi->update($request->all());
+    // Definisci i messaggi di errore personalizzati
+    $messages = [
+        'nome_servizio.required' => 'Il nome del servizio è un campo obbligatorio',
+        'nome_servizio.min' => 'Il nome del servizio deve avere almeno :min caratteri',
+        'nome_servizio.max' => 'Il nome del servizio può avere al massimo :max caratteri',
+        'descrizione.required' => 'La descrizione è un campo obbligatorio',
+        'descrizione.min' => 'La descrizione deve avere almeno :min caratteri',
+    ];
 
-        // Reindirizza all'elenco dei Servizi con un messaggio di successo
-        return redirect()->route('servizis.index')->with('success', 'Servizi updated successfully');
+    // Valida i dati inviati dalla richiesta
+    $validator = Validator::make($request->all(), $rules, $messages);
+
+    // Controlla se la validazione è passata
+    if ($validator->fails()) {
+        // Reindirizza indietro con gli errori
+        return redirect()
+            ->back()
+            ->withErrors($validator)
+            ->withInput();
     }
+
+    // Aggiorna il Servizio utilizzando i dati inviati dalla richiesta
+    $servizi->update($request->all());
+
+    // Reindirizza all'elenco dei Servizi con un messaggio di successo
+    return redirect()->route('servizis.index')->with('success', 'Servizio aggiornato con successo');
+}
 
     // Funzione per eliminare un Servizio
     public function destroy(Servizi $servizi)

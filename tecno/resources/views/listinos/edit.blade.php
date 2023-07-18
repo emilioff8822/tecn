@@ -25,14 +25,25 @@
 
                             <div class="form-group">
                                 <label>Costo</label>
-                                <input type="text" name="costo" value="{{ $listino->costo }}" class="form-control"
-                                    required>
+                                <input type="text" name="costo" value="{{ old('costo', $listino->costo) }}"
+                                    class="form-control @error('costo') is-invalid @enderror" required>
+                                @error('costo')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
 
                             <div class="form-group">
                                 <label>Prezzo Vendita</label>
-                                <input type="text" name="prezzo_vendita" value="{{ $listino->prezzo_vendita }}"
-                                    class="form-control" required>
+                                <input type="text" name="prezzo_vendita"
+                                    value="{{ old('prezzo_vendita', $listino->prezzo_vendita) }}"
+                                    class="form-control @error('prezzo_vendita') is-invalid @enderror" required>
+                                @error('prezzo_vendita')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
 
                             <button type="submit" class="btn btn-primary mt-3">Update</button>
