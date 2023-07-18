@@ -25,7 +25,9 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th scope="col">#ID</th>
+                    <th scope="col">
+                        <a href="{{ route('servizis.index', ['order' => $order === 'asc' ? 'desc' : 'asc']) }}">ID</a>
+                    </th>
                     <th scope="col">Nome Servizio</th>
                     <th scope="col">Descrizione</th>
                     <th scope="col">Azioni</th>

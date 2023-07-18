@@ -9,13 +9,21 @@ use Illuminate\Support\Facades\Validator;
 class ServiziController extends Controller
 {
     // Funzione per mostrare l'elenco dei Servizi
-    public function index()
+     public function index(Request $request)
     {
-        // Recupera tutti i Servizi dal database paginati con 10 elementi per pagina
-        $servizis = Servizi::paginate(10);
+        // Ottieni il parametro di ordinamento dalla query string
+        $order = $request->query('order', 'asc');
+
+        // Recupera tutti i Servizi dal database ordinati
+        $servizis = Servizi::orderBy('id', $order)->paginate(10);
+
+        // Inverti l'ordine se il parametro di ordinamento è "desc"
+        if ($order === 'desc') {
+            $servizis->withPath('/servizis?order=asc');
+        }
 
         // Mostra la vista dell'elenco dei Servizi con i dati passati
-        return view('servizis.index', compact('servizis'));
+        return view('servizis.index', compact('servizis', 'order'));
     }
 
     // Funzione per creare un nuovo Servizio
