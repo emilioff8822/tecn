@@ -1,4 +1,7 @@
 **Passo 2: Creazione delle tabelle nel database**
+tabelle
+https://i.postimg.cc/63KwTMMS/tabelle.png
+
 Ho creato quattro tabelle nel database:
 
 1. `servizis`: contiene le informazioni sui servizi. I campi includono 'id' (chiave primaria, non nulla, autoincrementante), 'nome_servizio' (tipo stringa di lunghezza massima 45, non nulla), e 'descrizione' (tipo TEXT, non nulla).
@@ -12,7 +15,8 @@ Ho creato quattro tabelle nel database:
 **Passo 3: Definizione delle relazioni tra le tabelle**
 Ho definito le relazioni tra le tabelle.
 
-Relazione tra 'servizis' e 'listinos': La tabella 'servizis' ha una relazione Uno a Molti con la tabella 'listinos'. Questo significa che un singolo servizio può avere molti listini associati, ma ogni listino è legato a un solo servizio. L'ID del servizio nella tabella 'listinos' è una chiave esterna che fa riferimento all'ID nella tabella 'servizis'.
+Relazione tra 'servizis' e 'listinos': La tabella 'servizis' ha una relazione Uno a Molti con la tabella 'listinos'.
+Questo significa che un singolo servizio può avere molti listini associati, ma ogni listino è legato a un solo servizio. L'ID del servizio nella tabella 'listinos' è una chiave esterna che fa riferimento all'ID nella tabella 'servizis'.
 
 Relazione tra 'points' e 'listinos': La tabella 'points' ha una relazione Uno a Molti con la tabella 'listinos'. Un singolo punto può avere molti listini associati, ma ogni listino è legato a un solo punto. L'ID del punto nella tabella 'listinos' è una chiave esterna che fa riferimento all'ID nella tabella 'points'.
 
