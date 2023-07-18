@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Listino;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ListinoController extends Controller
 {
@@ -50,19 +51,39 @@ class ListinoController extends Controller
 
     // Funzione per aggiornare un listino nel database
     public function update(Request $request, Listino $listino)
-    {
-        // Validazione dei campi richiesti
-        $request->validate([
-            'costo' => 'required',
-            'prezzo_vendita' => 'required',
-        ]);
+{
+    // Definisci le regole di validazione
+    $rules = [
+        'costo' => 'required|numeric',
+        'prezzo_vendita' => 'required|numeric',
+    ];
 
-        // Aggiorna il listino utilizzando i dati inviati dalla richiesta
-        $listino->update($request->all());
+    // Definisci i messaggi di errore personalizzati
+    $messages = [
+        'costo.required' => 'Il costo è un campo obbligatorio',
+        'costo.numeric' => 'Il costo deve essere un numero',
+        'prezzo_vendita.required' => 'Il prezzo di vendita è un campo obbligatorio',
+        'prezzo_vendita.numeric' => 'Il prezzo di vendita deve essere un numero',
+    ];
 
-        // Reindirizza all'elenco dei listini con un messaggio di successo
-        return redirect()->route('listinos.index')->with('success', 'Listino updated successfully');
+    // Valida i dati inviati dalla richiesta
+    $validator = Validator::make($request->all(), $rules, $messages);
+
+    // Controlla se la validazione è passata
+    if ($validator->fails()) {
+        // Reindirizza indietro con gli errori
+        return redirect()
+            ->back()
+            ->withErrors($validator)
+            ->withInput();
     }
+
+    // Aggiorna il listino utilizzando i dati inviati dalla richiesta
+    $listino->update($request->all());
+
+    // Reindirizza all'elenco dei listini con un messaggio di successo
+    return redirect()->route('listinos.index')->with('success', 'Listino aggiornato con successo');
+}
 
     // Funzione per eliminare un listino
     public function destroy(Listino $listino)

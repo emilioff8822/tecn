@@ -19,6 +19,9 @@
             </div>
         @endif
 
+        <!-- Aggiungi il bottone "Crea Nuovo Servizio" -->
+        <a href="{{ route('servizis.create') }}" class="btn btn-warning mb-3">Crea Nuovo Servizio</a>
+
         <table class="table table-striped table-hover">
             <thead>
                 <tr>

@@ -19,21 +19,26 @@ class ServiziController extends Controller
     }
 
     // Funzione per creare un nuovo Servizio
-    public function create()
-    {
-        // Mostra la vista per creare un nuovo Servizio
-        return view('servizis.create');
-    }
+ public function create()
+{
+    // Mostra la vista per creare un nuovo Servizio
+    return view('servizis.create');
+}
 
-    // Funzione per salvare un nuovo Servizio nel database
-    public function store(Request $request)
-    {
-        // Crea un nuovo Servizio utilizzando i dati inviati dalla richiesta
-        $servizi = Servizi::create($request->all());
+public function store(Request $request)
+{
+    // Validazione dei dati
+    $request->validate([
+        'nome_servizio' => 'required',
+        'descrizione' => 'required',
+    ]);
 
-        // Reindirizza all'elenco dei Servizi
-        return redirect()->route('servizis.index');
-    }
+    // Crea un nuovo Servizio utilizzando i dati inviati dalla richiesta
+    $servizi = Servizi::create($request->all());
+
+    // Reindirizza all'elenco dei Servizi
+    return redirect()->route('servizis.index');
+}
 
     // Funzione per mostrare i dettagli di un Servizio specifico
     public function show(Servizi $servizi)
